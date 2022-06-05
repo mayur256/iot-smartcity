@@ -1,9 +1,7 @@
 # **IOT-Smartcity**
----
 This is a college semester project aimed to model the several facets of  **Smartcity** intitiative. The System includes various modules like **Smart Traffic Management, Smart Street Lights, Smart Parking System** and _some other components_ of a smart city.
 
 ## Synopsis
----
 * The System includes **Web-based service, an Android App and Arduino controlled sesnsors and other circuitry.**
 * **Other Salient Features**  
     1. A **Smart Street Light system** that switches on only when it senses a vehicle in its close proximity, thereby saving electrical energy.
@@ -13,7 +11,6 @@ This is a college semester project aimed to model the several facets of  **Smart
     5. A **Smart Traffic Control system** that enforces traffic rules and notifies the traffic authorities if someone violates the rules.
 
 ## TECHNOLOGIES
-----
 ##### 1. BACK-END
 *   PHP, JAVA & Apache Server
 ##### 2. FRONT-END
@@ -32,11 +29,9 @@ This is a college semester project aimed to model the several facets of  **Smart
 * Arduino and Android
 
 ## Contributors
----
-**1. Anish Kumar**
-**2. [Mayur Upadhayay](https://github.com/mayur256)**
-**3. [Yash Patel](https://github.com/YashPatel9274)**
+**1. Anish Kumar**  
+**2. [Mayur Upadhayay](https://github.com/mayur256)**  
+**3. [Yash Patel](https://github.com/YashPatel9274)**  
 
 ## Links
----
 * [Youtube - IOT](https://youtu.be/8PDNgE_jzA8)
