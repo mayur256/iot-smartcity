@@ -1,0 +1,104 @@
+#include <ESP8266HTTPClient.h>
+#include <ESP8266WiFi.h>
+#include<dht.h>
+dht DHT;
+
+#define LDR D2
+#define trigPin D3
+#define echoPin D4
+#define led D5
+#define trigPin1 D6
+#define echoPin1 D7
+#define led1 D8
+#define DHT1 D9
+#define Buzzer D10
+//Access point credentials
+const char* ssid = "Yash";
+const char* pwd = "123456789";
+const char* host = "http://192.168.43.67";
+String get_host = "http://192.168.43.67";
+int sensorValue;
+WiFiServer server(80); // open port 80 for server connection
+void setup()
+{
+pinMode(Buzzer,OUTPUT); //Buzzer Pin
+pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+pinMode(led, OUTPUT);
+pinMode(trigPin1, OUTPUT);
+pinMode(echoPin1, INPUT);
+pinMode(led1, OUTPUT);
+
+delay(20);
+WiFi.begin(ssid, pwd);
+server.begin();
+}
+void loop()
+{
+sensorValue = analogRead(A0);
+String ab1 = String(sensorValue);
+int chk = DHT.read11(DHT1);
+int a=DHT.humidity;
+String ab2 = String(a);
+int b=DHT.temperature;
+String ab3 = String(b);
+delay(1000);
+get_device_status(ab1,ab2,ab3);
+
+long duration, distance,duration1, distance1;
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distance = (duration/2) / 29.1;
+
+digitalWrite(trigPin1, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin1, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin1, LOW);
+duration1 = pulseIn(echoPin1, HIGH);
+distance1 = (duration1/2) / 29.1;
+
+if(digitalRead(LDR)==HIGH)
+{
+  if (distance < 10)
+  { 
+    digitalWrite(led,HIGH);
+    delay(2000);
+  }
+  if (distance1 < 10)
+  { 
+    digitalWrite(led1,HIGH);
+    delay(2000);
+  }
+  else 
+  {
+    digitalWrite(led1,LOW);
+    digitalWrite(led,LOW);
+  }
+}
+if(sensorValue>=150)
+{
+  digitalWrite(Buzzer,HIGH);
+  delay(100);
+}
+else
+{
+  digitalWrite(Buzzer,LOW);
+}
+}
+void get_device_status(String cm1,String cm2,String cm3)
+{
+WiFiClient client = server.available();
+HTTPClient http;
+String url = get_host+"/smartcity/gasdata.php?gas="+cm1+"&hum="+cm2+"&tem="+cm3;
+http.begin(url);
+//GET method
+Serial.println(url);
+int httpCode = http.GET();
+String payload = http.getString();
+http.end();
+}

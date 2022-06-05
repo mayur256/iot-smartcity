@@ -1,0 +1,68 @@
+#include <ESP8266HTTPClient.h>
+#include <ESP8266WiFi.h>
+
+#define SO A0
+#define M1 D2
+#define M2 D3
+#define M3 D4
+#define P1 D5
+#define P2 D6
+#define P3 D7
+#define NP D15
+
+const char* ssid = "Yash";
+const char* pwd = "123456789";
+const char* host = "http://192.168.43.67";
+String get_host = "http://192.168.43.67";
+
+WiFiServer server(80); // open port 80 for server connection
+void setup()
+{
+pinMode(M1, OUTPUT);
+pinMode(M2, OUTPUT);
+pinMode(M3, OUTPUT;
+pinMode(P1, INPUT);
+pinMode(P2, INPUT);
+pinMode(P3, INPUT);
+pinMode(NP, INPUT);
+
+delay(20);
+WiFi.begin(ssid, pwd);
+server.begin();
+}
+void loop()
+{
+  so=analogRead(SO);
+  so=map(so,55,0,0,0,100);
+  p1=digitalRead(P1);
+  p2=digitalRead(P2);
+  p3=digitalRead(P3);
+  np=digitalRead(NP);
+  if(so>=80)
+  {
+    digitalWrite(M1,HIGH);
+    digitalWrite(M2,HIGH);
+    digitalWrite(M3,HIGH);
+    delay(1000);
+  }
+  else
+  {
+    digitalWrite(M1,LOW);
+    digitalWrite(M2,LOW);
+    digitalWrite(M3,LOW);
+  }
+  delay(1000);
+  get_device_status(so,p1,p2,p3,np);
+}
+void get_device_status(String so,String p1,String p2,String p3,String np)
+{
+WiFiClient client = server.available();
+HTTPClient http;
+String url = get_host+"/smartcity/parkingi.php?so="+so+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&np="+np;
+http.begin(url);
+//GET method
+Serial.println(url);
+int httpCode = http.GET();
+String payload = http.getString();
+http.end();
+}
